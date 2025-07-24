@@ -2,7 +2,7 @@ variables:
   CT_USER: "root"
   PROJECT_NAME: "hh_booster"
   PROJECT_DIR: "/data/$PROJECT_NAME"
-  REMOTE_SERVER: "172.0.0.107"
+  REMOTE_SERVER: "172.0.0.109"
   SSH_COMMAND: "ssh $CT_USER@$REMOTE_SERVER"
 
 stages:
