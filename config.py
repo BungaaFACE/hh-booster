@@ -8,7 +8,7 @@ TIME_PATTERN = r'\b([01]?[0-9]|2[0-3]):([0-5][0-9])\b'
 COOLDOWN_HOURS = timedelta(hours=4)
 
 dotenv.load_dotenv('.env', override=True)
-HH_CHANNEL_ID, peer_type = utils.resolve_id(int(os.getenv('HH_CHANNEL_ID', 827954988)))
+HH_BOT_USERNAME = os.getenv('HH_BOT_USERNAME', '@hh_rabota_bot')
 API_ID = int(os.getenv('API_ID'))
 API_HASH = os.getenv('API_HASH')
 

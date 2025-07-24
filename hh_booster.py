@@ -5,8 +5,8 @@ from pprint import pprint
 from datetime import date, datetime, time
 from telethon import events, TelegramClient
 
-from config import API_ID, API_HASH, HH_CHANNEL_ID, TIME_PATTERN, COOLDOWN_HOURS, MSK_TIMEZONE
-from utils import is_hh_bot, check_suggested_time
+from config import API_ID, API_HASH, HH_BOT_USERNAME, TIME_PATTERN, COOLDOWN_HOURS
+from utils import is_hh_bot, check_suggested_time, get_sleep_time
 
 
 account_bot = TelegramClient('account_login', API_ID, API_HASH,
@@ -40,22 +40,32 @@ async def handler(event: events.CallbackQuery.Event):
         if check_suggested_time(suggested_boost_time):
             logger.info(f'Поднимаю резюме в {suggested_boost_time} (МСК)')
             await event.respond('Поднять')
+        else:
+            logger.info(f'Предложенное время {suggested_boost_time} (МСК) не подходит для TARGET_TIME, ожидание')
+            await asyncio.sleep(get_sleep_time())
+            await boost_cv_commands()
 
 
-async def main(bot: TelegramClient):
-    await bot.send_message(HH_CHANNEL_ID, '/start')
+async def boost_cv_commands():
+    await account_bot.send_message(HH_BOT_USERNAME, 'Главное меню')
+    await asyncio.sleep(3)
+    await account_bot.send_message(HH_BOT_USERNAME, 'В начало')
+    await asyncio.sleep(3)
+    await account_bot.send_message(HH_BOT_USERNAME, 'Поднять резюме в поиске')
+
+
+async def main():
+    await account_bot.send_message(HH_BOT_USERNAME, '/start')
+    await asyncio.sleep(3)
+
     while True:
-        if check_suggested_time(datetime.now(MSK_TIMEZONE).time()):
-            await bot.send_message(HH_CHANNEL_ID, 'Главное меню')
-            await asyncio.sleep(3)
-            await bot.send_message(HH_CHANNEL_ID, 'В начало')
-            await asyncio.sleep(3)
-            await bot.send_message(HH_CHANNEL_ID, 'Поднять резюме в поиске')
+        if check_suggested_time():
+            await boost_cv_commands()
             break
 
         await asyncio.sleep(30)
 
 
 if __name__ == '__main__':
-    account_bot.loop.run_until_complete(main(account_bot))
+    account_bot.loop.run_until_complete(main())
     account_bot.run_until_disconnected()
