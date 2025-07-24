@@ -2,7 +2,7 @@ import re
 import asyncio
 from loguru import logger
 from pprint import pprint
-from datetime import datetime, time
+from datetime import date, datetime, time
 from telethon import events, TelegramClient
 
 from config import API_ID, API_HASH, HH_CHANNEL_ID, TIME_PATTERN, COOLDOWN_HOURS, MSK_TIMEZONE
@@ -32,7 +32,7 @@ async def handler(event: events.CallbackQuery.Event):
         time_in_message = time(hour=hours, minute=minutes)
 
         if 'Поднять снова через' in message_text:
-            suggested_boost_time = time_in_message + COOLDOWN_HOURS
+            suggested_boost_time = (datetime.combine(date.today(), time_in_message) + COOLDOWN_HOURS).time()
 
         elif 'Давайте я сделаю это за вас в' in message_text:
             suggested_boost_time = time_in_message
