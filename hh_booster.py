@@ -58,12 +58,10 @@ async def main():
     await account_bot.send_message(HH_BOT_USERNAME, '/start')
     await asyncio.sleep(3)
 
-    while True:
-        if check_suggested_time():
-            await boost_cv_commands()
-            break
+    if not check_suggested_time():
+        await asyncio.sleep(get_sleep_time())
 
-        await asyncio.sleep(30)
+    await boost_cv_commands()
 
 
 if __name__ == '__main__':

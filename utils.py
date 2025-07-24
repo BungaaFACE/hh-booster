@@ -1,5 +1,4 @@
-from datetime import date, datetime, time, timedelta
-from telethon import utils
+from datetime import date, datetime, timedelta
 
 from config import HH_BOT_USERNAME, TARGET_TIME, PROH_BOOST_TIME_START, PROH_BOOST_TIME_END, MSK_TIMEZONE
 
@@ -19,7 +18,9 @@ def check_suggested_time(sugg_time=None):
         if not sugg_time:
             sugg_time = datetime.now(MSK_TIMEZONE).time()
 
-        if PROH_BOOST_TIME_START < sugg_time < PROH_BOOST_TIME_END:
+        # Вторым условием проверяем случай, когда PROH_BOOST_TIME_END в начале следующего дня
+        if PROH_BOOST_TIME_START <= sugg_time <= PROH_BOOST_TIME_END or \
+                PROH_BOOST_TIME_END < PROH_BOOST_TIME_START and PROH_BOOST_TIME_START <= sugg_time:
             return False
     return True
 
