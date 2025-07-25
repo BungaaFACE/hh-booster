@@ -7,7 +7,8 @@ async def is_hh_bot(event):
     '''
     Filter for message handler. Filtering only HH bot.
     '''
-    return event.get_chat().username == HH_BOT_USERNAME
+    chat = await event.get_chat()
+    return chat.username == HH_BOT_USERNAME
 
 
 def check_suggested_time(sugg_time=None):
