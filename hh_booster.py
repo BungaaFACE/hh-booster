@@ -1,21 +1,18 @@
 import re
 import asyncio
-from loguru import logger
-from pprint import pprint
 from datetime import date, datetime, time
 from telethon import events, TelegramClient
 
 from config import API_ID, API_HASH, HH_BOT_USERNAME, TIME_PATTERN, COOLDOWN_HOURS
-from utils import is_hh_bot, check_suggested_time, get_sleep_time
+from utils import is_hh_bot, check_suggested_time, get_sleep_time, configure_logger
 
-
+logger = configure_logger()
 account_bot = TelegramClient('account_login', API_ID, API_HASH,
                              device_model="Linux 5.15.0", system_version="Ubuntu 22").start()
 
 
 @account_bot.on(events.NewMessage(func=is_hh_bot))
 async def handler(event: events.CallbackQuery.Event):
-    # pprint(event.message.__dict__)
     '''
     Примеры ответов:
     Пока рано поднимать резюме — с последнего раза не прошло 4 часа. Давайте я сделаю это за вас в 18:55 (МСК)?
