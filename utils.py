@@ -3,11 +3,11 @@ from datetime import date, datetime, timedelta
 from config import HH_BOT_USERNAME, TARGET_TIME, PROH_BOOST_TIME_START, PROH_BOOST_TIME_END, MSK_TIMEZONE
 
 
-def is_hh_bot(event):
+async def is_hh_bot(event):
     '''
     Filter for message handler. Filtering only HH bot.
     '''
-    return event.chat.username == HH_BOT_USERNAME
+    return event.get_chat().username == HH_BOT_USERNAME
 
 
 def check_suggested_time(sugg_time=None):
