@@ -33,7 +33,7 @@ def check_suggested_time(sugg_time=None):
 
 
 def get_sleep_time():
-    datetime_now = datetime.now()
+    datetime_now = datetime.now(MSK_TIMEZONE)
     datetime_target = datetime.combine(date.today(), TARGET_TIME)
 
     if TARGET_TIME < datetime_now.time():

@@ -38,8 +38,10 @@ async def handler(event: events.CallbackQuery.Event):
             logger.info(f'Поднимаю резюме в {suggested_boost_time} (МСК)')
             await event.respond('Поднять')
         else:
-            logger.info(f'Предложенное время {suggested_boost_time} (МСК) не подходит для TARGET_TIME, ожидание')
-            await asyncio.sleep(get_sleep_time())
+            sleep_time = get_sleep_time()
+            logger.info(
+                f'Предложенное время {suggested_boost_time} (МСК) не подходит для TARGET_TIME, ожидание {sleep_time} секунд')
+            await asyncio.sleep(sleep_time)
             await boost_cv_commands()
 
 
