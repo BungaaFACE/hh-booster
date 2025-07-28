@@ -36,7 +36,7 @@ def get_sleep_time():
     datetime_now = datetime.now(MSK_TIMEZONE)
     datetime_target = datetime.combine(date.today(), TARGET_TIME, MSK_TIMEZONE)
 
-    if TARGET_TIME < datetime_now.time():
+    if TARGET_TIME < datetime_now.time() or datetime_target < datetime_now:
         datetime_target += timedelta(days=1)
 
     return (datetime_target - datetime_now).total_seconds()
